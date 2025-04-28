@@ -164,5 +164,5 @@ public class MyCustomLogger {
 		log((message));
 	}
 
-/
+
 }
