@@ -9,6 +9,7 @@ import com.example.flat.com.MyConstants.StringRes;
 import com.example.flat.com.MyCustomLogger;
 import com.example.flat.com.RestModels.Users;
 import com.example.flat.com.RestServices.RestMobileService;
+import com.example.flat.com.model.Signup;
 import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,6 +54,24 @@ public class RestMobileController extends MyCustomLogger {
 			log("i am in catch");
 			log(e.getLocalizedMessage(), LogType.Error);
 			log("Error in RestAuthController  getQualificationDetails Method--->>>" + e.getMessage(), LogType.Error);
+			return grm.returnResponse(e.getMessage(), StringRes.DESC_MSG, response, ResponseCode.UNPROCESSABLE_ENTITY);
+		}
+	}
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public Map<String, Object> signup(@RequestBody String requestBody, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+	
+			Signup restmrm = new Gson().fromJson(requestBody, Signup.class);
+			DataTraveller<Signup> dtrmrm = new DataTraveller<Signup>();
+			dtrmrm.setData(restmrm);
+			log("json Parced Successfully");
+			return returnData(restMobileService.signUp(restmrm), response);
+
+		} catch (Exception e) {
+			log("i am in catch");
+			log(e.getLocalizedMessage(), LogType.Error);
+			log("Error in RestAuthController  SignUp Method--->>>" + e.getMessage(), LogType.Error);
 			return grm.returnResponse(e.getMessage(), StringRes.DESC_MSG, response, ResponseCode.UNPROCESSABLE_ENTITY);
 		}
 	}
